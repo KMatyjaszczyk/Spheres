@@ -51,11 +51,11 @@ public class Panel extends JPanel {
         }
         @Override
         public void mouseEntered(MouseEvent e) {
-            System.out.println("wróć");
+            message = "Dzięki że wróciłeś!";
         }
         @Override
         public void mouseExited(MouseEvent e) {
-            System.out.println("dzięki");
+            message = "Wróć!";
         }
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -96,10 +96,10 @@ public class Panel extends JPanel {
         public void update() {
             x += xspeed;
             y += yspeed;
-            if (x <= 0 || x >= getWidth()) {
+            if (x <= 0 || x >= getWidth()-size) {
                 xspeed = -xspeed;
             }
-            if (y <= 0 || y >= getHeight()) {
+            if (y <= 0 || y >= getHeight()-size) {
                 yspeed = -yspeed;
             }
             for (Kula k : listaKul) {
