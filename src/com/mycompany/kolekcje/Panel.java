@@ -2,17 +2,13 @@ package com.mycompany.kolekcje;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.ArrayList;
-import javax.swing.JPanel;
-import javax.swing.Timer;
+import javax.swing.*;
 
 public class Panel extends JPanel {
     private ArrayList<Kula> listaKul;
-    private int size = 20;
+    private int size = 60;
     private Timer timer;
     private final int DELAY = 15;
     //dla 30fps -> 1s/30 = 0,033s
@@ -31,7 +27,8 @@ public class Panel extends JPanel {
             g.drawOval(k.x, k.y, k.size, k.size);
         }
         g.setColor(Color.YELLOW);
-        g.drawString(Integer.toString(listaKul.size()),40,40);
+        g.drawString("Liczba kulek: " + Integer.toString(listaKul.size()),40,40);
+        g.drawString("Rozmiar kuli: " + size,40,60);
     }
 
     private class Event implements MouseListener,
@@ -49,9 +46,11 @@ public class Panel extends JPanel {
         }
         @Override
         public void mouseEntered(MouseEvent e) {
+            System.out.println("wróć");
         }
         @Override
         public void mouseExited(MouseEvent e) {
+            System.out.println("dzięki");
         }
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -60,6 +59,7 @@ public class Panel extends JPanel {
             }
             repaint();
         }
+
     }
 
     private class Kula {
@@ -72,10 +72,10 @@ public class Panel extends JPanel {
             this.size = size;
             color = new Color((float) Math.random(), (float)
                     Math.random(), (float) Math.random());
-            xspeed = (int) (Math.random() * MAX_SPEED * 2 -
-                    MAX_SPEED);
-            yspeed = (int) (Math.random() * MAX_SPEED * 2 -
-                    MAX_SPEED);
+            xspeed = (int) (Math.random() * MAX_SPEED * 2 - MAX_SPEED);
+            while (xspeed == 0) xspeed = (int) (Math.random() * MAX_SPEED * 2 - MAX_SPEED);
+            yspeed = (int) (Math.random() * MAX_SPEED * 2 - MAX_SPEED);
+            while (yspeed == 0) yspeed = (int) (Math.random() * MAX_SPEED * 2 - MAX_SPEED);
         }
         public void update() {
             x += xspeed;
@@ -85,6 +85,18 @@ public class Panel extends JPanel {
             }
             if (y <= 0 || y >= getHeight()) {
                 yspeed = -yspeed;
+            }
+            for (Kula k : listaKul) {
+                if ( ( Math.pow((k.x - this.x), 2) + Math.pow((k.y - this.y),2) )
+                        <= Math.pow(size, 2)) {
+                    int robxspeed, robyspeed;
+                    robxspeed = this.xspeed;
+                    robyspeed = this.yspeed;
+                    this.xspeed = k.xspeed;
+                    this.yspeed = k.yspeed;
+                    k.xspeed = robxspeed;
+                    k.yspeed = robyspeed;
+                }
             }
         }
     }
