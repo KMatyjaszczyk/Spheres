@@ -11,11 +11,13 @@ public class Panel extends JPanel {
     private int size = 60;
     private Timer timer;
     private final int DELAY = 15;
+    private String message = "";
     //dla 30fps -> 1s/30 = 0,033s
     public Panel() {
         listaKul = new ArrayList<>();
         setBackground(Color.BLACK);
         addMouseListener(new Event());
+        addMouseWheelListener(new Event());
         timer = new Timer(DELAY, new Event());
         timer.start();
     }
@@ -29,12 +31,14 @@ public class Panel extends JPanel {
         g.setColor(Color.YELLOW);
         g.drawString("Liczba kulek: " + Integer.toString(listaKul.size()),40,40);
         g.drawString("Rozmiar kuli: " + size,40,60);
+        g.drawString(message,40,80);
     }
 
     private class Event implements MouseListener,
-            ActionListener {
+            ActionListener, MouseWheelListener {
         @Override
         public void mouseClicked(MouseEvent e) {
+            message = "Kliknąłeś myszkę";
         }
         @Override
         public void mousePressed(MouseEvent e) {
@@ -43,6 +47,7 @@ public class Panel extends JPanel {
         }
         @Override
         public void mouseReleased(MouseEvent e) {
+            message = "Puściłeś myszkę";
         }
         @Override
         public void mouseEntered(MouseEvent e) {
@@ -59,7 +64,18 @@ public class Panel extends JPanel {
             }
             repaint();
         }
-
+        @Override
+        public void mouseWheelMoved(MouseWheelEvent e) {
+            int scroll = e.getWheelRotation();
+            if (scroll < 0) {
+                size++;
+                System.out.println("Kułko w gure, rozmiar++");
+            }
+            else {
+                System.out.println("Kułko w duł, rozmiar--");
+                size--;
+            }
+        }
     }
 
     private class Kula {
@@ -88,7 +104,7 @@ public class Panel extends JPanel {
             }
             for (Kula k : listaKul) {
                 if ( ( Math.pow((k.x - this.x), 2) + Math.pow((k.y - this.y),2) )
-                        <= Math.pow(size, 2)) {
+                        <= Math.pow( ( (double) k.size/2 + (double) this.size/2), 2) ) {
                     int robxspeed, robyspeed;
                     robxspeed = this.xspeed;
                     robyspeed = this.yspeed;
