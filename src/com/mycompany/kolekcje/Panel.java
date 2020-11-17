@@ -103,8 +103,9 @@ public class Panel extends JPanel {
                 yspeed = -yspeed;
             }
             for (Kula k : listaKul) {
-                if ( ( Math.pow((k.x - this.x), 2) + Math.pow((k.y - this.y),2) )
-                        <= Math.pow( ( (double) k.size/2 + (double) this.size/2), 2) ) {
+                double odleglosc =  Math.pow((k.x+(size/2.0) - this.x)+(size/2.0), 2) + Math.pow((k.y+(size/2.0) - this.y+(size/2.0)), 2);
+                double sumaPromieni = Math.pow(((double)k.size/2 + (double)this.size/2), 2);
+                if (odleglosc <= sumaPromieni) {
                     int robxspeed, robyspeed;
                     robxspeed = this.xspeed;
                     robyspeed = this.yspeed;
