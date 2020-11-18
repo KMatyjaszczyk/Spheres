@@ -29,7 +29,7 @@ public class Panel extends JPanel {
             g.drawOval(k.x, k.y, k.size, k.size);
         }
         g.setColor(Color.YELLOW);
-        g.drawString("Liczba kulek: " + Integer.toString(listaKul.size()),40,40);
+        g.drawString("Liczba kulek: " + (listaKul.size()),40,40);
         g.drawString("Rozmiar kuli: " + size,40,60);
         g.drawString(message,40,80);
     }
@@ -103,7 +103,7 @@ public class Panel extends JPanel {
                 yspeed = -yspeed;
             }
             for (Kula k : listaKul) {
-                double odleglosc =  Math.pow((k.x+(size/2.0) - this.x)+(size/2.0), 2) + Math.pow((k.y+(size/2.0) - this.y+(size/2.0)), 2);
+                double odleglosc =  Math.pow((k.x+(size/2.0) - this.x+(size/2.0)), 2) + Math.pow((k.y+(size/2.0) - this.y+(size/2.0)), 2);
                 double sumaPromieni = Math.pow(((double)k.size/2 + (double)this.size/2), 2);
                 if (odleglosc <= sumaPromieni) {
                     int robxspeed, robyspeed;
