@@ -1,2 +1,2 @@
-# ProgObiektoweJava_Lab7
-Wykorzystanie kolekcji.
+# Spheres
+Simple animated spheres application.
